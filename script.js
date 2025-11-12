@@ -997,13 +997,11 @@ async function openImageEditor() {
         editorImages = [...currentProductImages];
     }
 
-    // Agregar PDF al inicio del array si existe
-    const pdfPath = `assets/pdfs/generadores-nafta/${currentProductData.name.replace(/\s+/g, '_')}.pdf`;
-    // Insertar PDF al inicio del array
-    editorImages.unshift(pdfPath);
-
     // Sincronizar con scope global
     window.editorImages = editorImages;
+
+    // Cargar archivos adjuntos (PDFs y otros)
+    loadAttachments();
 
     // Renderizar grid de imágenes
     renderEditorGrid();
@@ -1032,36 +1030,13 @@ function renderEditorGrid() {
         item.draggable = true;
         item.dataset.index = index;
 
-        // Determinar tipo de archivo
-        const isPDF = imgSrc.includes('.pdf');
+        // Determinar tipo de archivo (sin PDFs, ya no están en el grid)
         const isVideo = imgSrc.includes('.mp4') || imgSrc.includes('.webm');
+        const fileName = `Archivo ${index + 1}`;
 
-        let mediaElement;
-        let fileName = `Archivo ${index + 1}`;
-
-        if (isPDF) {
-            // Estilo especial para PDF
-            item.classList.add('editor-pdf-item');
-            const pdfName = imgSrc.split('/').pop().replace('.pdf', '');
-            fileName = `PDF: ${pdfName}`;
-            mediaElement = `
-                <div class="pdf-preview">
-                    <div class="pdf-icon">📄</div>
-                    <div class="pdf-label">Ficha Técnica</div>
-                </div>
-            `;
-            // Hacer clickeable para abrir el PDF
-            item.style.cursor = 'pointer';
-            item.addEventListener('click', function(e) {
-                if (!e.target.classList.contains('editor-image-checkbox')) {
-                    window.open(imgSrc, '_blank');
-                }
-            });
-        } else if (isVideo) {
-            mediaElement = `<video src="${imgSrc}" muted></video>`;
-        } else {
-            mediaElement = `<img src="${imgSrc}" alt="Imagen ${index + 1}">`;
-        }
+        const mediaElement = isVideo ?
+            `<video src="${imgSrc}" muted></video>` :
+            `<img src="${imgSrc}" alt="Imagen ${index + 1}">`;
 
         item.innerHTML = `
             ${mediaElement}
@@ -1079,6 +1054,59 @@ function renderEditorGrid() {
 
         grid.appendChild(item);
     });
+}
+
+// Cargar archivos adjuntos (PDFs y otros documentos)
+function loadAttachments() {
+    if (!currentProductData) return;
+
+    const attachmentsList = document.getElementById('attachmentsList');
+    const folderPathSpan = document.getElementById('attachmentsFolderPath');
+
+    // Construir ruta de la carpeta de PDFs
+    const pdfFolderPath = `assets/pdfs/generadores-nafta/`;
+    folderPathSpan.textContent = pdfFolderPath;
+
+    // Lista de archivos potenciales
+    const productName = currentProductData.name.replace(/\s+/g, '_');
+    const potentialFiles = [
+        { name: `${productName}.pdf`, type: 'PDF', icon: '📄' },
+        { name: `${productName}.html`, type: 'HTML', icon: '🌐' },
+        { name: `${productName}.json`, type: 'JSON', icon: '📋' },
+        { name: `${productName}.txt`, type: 'TXT', icon: '📝' },
+        { name: `ficha_tecnica.pdf`, type: 'PDF', icon: '📄' },
+        { name: `manual.pdf`, type: 'PDF', icon: '📘' }
+    ];
+
+    // Por ahora mostrar el PDF principal si existe
+    const mainPDF = {
+        name: `${productName}.pdf`,
+        path: `${pdfFolderPath}${productName}.pdf`,
+        type: 'PDF',
+        icon: '📄'
+    };
+
+    attachmentsList.innerHTML = `
+        <div class="attachment-item" onclick="window.open('${mainPDF.path}', '_blank')">
+            <div class="attachment-icon">${mainPDF.icon}</div>
+            <div class="attachment-info">
+                <div class="attachment-name">${mainPDF.name}</div>
+                <div class="attachment-type">${mainPDF.type} - Ficha Técnica</div>
+            </div>
+        </div>
+    `;
+}
+
+// Abrir carpeta de archivos adjuntos
+function openAttachmentsFolder() {
+    if (!currentProductData) return;
+
+    const folderPath = `assets/pdfs/generadores-nafta/`;
+    EditorLog.info(`Carpeta de archivos adjuntos: ${folderPath}`);
+    console.log(`📂 Carpeta de archivos adjuntos: ${folderPath}`);
+
+    // En un sistema con acceso a APIs nativas, aquí se abriría la carpeta
+    // Por ahora solo mostramos la ruta
 }
 
 // Funciones de Drag & Drop
@@ -1136,23 +1164,8 @@ async function deleteSelectedImages() {
         .map(cb => parseInt(cb.dataset.index))
         .sort((a, b) => b - a);
 
-    // Verificar si algún elemento es PDF y filtrarlo
-    const validIndices = indices.filter(index => {
-        const item = editorImages[index];
-        if (item && item.includes('.pdf')) {
-            EditorLog.warning('No se puede eliminar el PDF, solo está para visualización');
-            return false;
-        }
-        return true;
-    });
-
-    if (validIndices.length === 0) {
-        EditorLog.warning('No hay imágenes válidas para eliminar');
-        return;
-    }
-
-    // Obtener rutas de las imágenes a eliminar (sin PDFs)
-    const imagesToDelete = validIndices.map(index => editorImages[index]);
+    // Obtener rutas de las imágenes a eliminar
+    const imagesToDelete = indices.map(index => editorImages[index]);
 
     try {
         // Llamar al backend para eliminar archivos físicamente
@@ -1162,7 +1175,7 @@ async function deleteSelectedImages() {
         }
 
         // Eliminar del array local de mayor a menor para no afectar los índices
-        validIndices.forEach(index => {
+        indices.forEach(index => {
             editorImages.splice(index, 1);
         });
 
@@ -1170,13 +1183,13 @@ async function deleteSelectedImages() {
         window.editorImages = editorImages;
 
         renderEditorGrid();
-        EditorLog.success(`${validIndices.length} imagen(es) eliminada(s) del servidor`);
+        EditorLog.success(`${indices.length} imagen(es) eliminada(s) del servidor`);
     } catch (error) {
         console.error('Error al eliminar imágenes:', error);
         EditorLog.error(`Error al eliminar del servidor: ${error.message}. Se eliminaron localmente`);
 
         // Eliminar localmente aunque falle el backend
-        validIndices.forEach(index => {
+        indices.forEach(index => {
             editorImages.splice(index, 1);
         });
         window.editorImages = editorImages;
@@ -1341,6 +1354,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSaveChanges = document.getElementById('btnSaveChanges');
     if (btnSaveChanges) {
         btnSaveChanges.addEventListener('click', saveImageChanges);
+    }
+
+    // Botón abrir carpeta de archivos adjuntos
+    const btnOpenAttachmentsFolder = document.getElementById('btnOpenAttachmentsFolder');
+    if (btnOpenAttachmentsFolder) {
+        btnOpenAttachmentsFolder.addEventListener('click', openAttachmentsFolder);
     }
 
     // Cerrar al hacer click fuera del modal
