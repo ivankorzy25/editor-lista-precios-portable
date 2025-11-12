@@ -35,7 +35,7 @@ async function login() {
     console.log('🔐 Autenticación en Directus...');
     console.log('');
 
-    const email = await question('Email de admin (default: admin@example.com): ') || 'admin@example.com';
+    const email = await question('Email de admin (default: admin@generadores.ar): ') || 'admin@generadores.ar';
     const password = await question('Password (default: kor2025): ') || 'kor2025';
 
     try {

@@ -115,7 +115,7 @@ Este script creará:
 ### 4️⃣ Configurar Permisos Públicos
 
 1. Abrir http://localhost:8055
-2. Login: `admin@example.com` / `kor2025`
+2. Login: `admin@generadores.ar` / `kor2025`
 3. Ir a **Settings** → **Roles & Permissions**
 4. Click en **Public**
 5. Para cada colección (`productos`, `imagenes_producto`, `archivos_producto`):

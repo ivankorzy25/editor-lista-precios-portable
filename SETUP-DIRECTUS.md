@@ -34,7 +34,7 @@ services:
       KEY: '255d861b-5ea1-5996-9aa3-922530ec40b1'
       SECRET: '6116487b-cda1-52c2-b5b5-c8022c45e263'
 
-      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_EMAIL: 'admin@generadores.ar'
       ADMIN_PASSWORD: 'kor2025'
 
       DB_CLIENT: 'sqlite3'
@@ -86,7 +86,7 @@ Esperar a que Directus esté listo (aprox. 30-60 segundos).
 
 1. Abrir navegador en: http://localhost:8055
 2. Login:
-   - Email: `admin@example.com`
+   - Email: `admin@generadores.ar`
    - Password: `kor2025`
 
 ## Paso 4: Importar Esquema
