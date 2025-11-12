@@ -46,7 +46,7 @@ async function loginDirectus() {
         return true;
     } catch (error) {
         console.error('❌ Error conectando a Directus:', error);
-        alert('⚠️ No se pudo conectar a Directus. Verifica que esté corriendo en localhost:8055');
+        console.warn('⚠️ No se pudo conectar a Directus. Verifica que esté corriendo en localhost:8055');
         return false;
     }
 }
@@ -189,13 +189,13 @@ window.openImageEditor = async function() {
         // Verificar que existe el modal y currentProductData (de script.js)
         if (!modal) {
             console.error('❌ Modal del editor no encontrado');
-            alert('❌ Error: Modal del editor no encontrado');
+            if (window.EditorLog) EditorLog.error('Modal del editor no encontrado');
             return;
         }
 
         if (!window.currentProductData) {
             console.error('❌ No hay producto seleccionado');
-            alert('❌ Error: No hay producto seleccionado. Por favor seleccioná un producto primero.');
+            if (window.EditorLog) EditorLog.error('No hay producto seleccionado. Selecciona un producto primero');
             return;
         }
 

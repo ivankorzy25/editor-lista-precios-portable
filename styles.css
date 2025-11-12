@@ -1599,6 +1599,67 @@ tbody td {
     color: #2c3e50;
 }
 
+/* Log discreto de operaciones */
+.editor-log {
+    max-height: 120px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.editor-log:empty {
+    display: none;
+}
+
+.log-message {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: slideIn 0.3s ease;
+    opacity: 0.95;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 0.95;
+        transform: translateX(0);
+    }
+}
+
+.log-message.success {
+    background: #d4edda;
+    border-left: 4px solid #28a745;
+    color: #155724;
+}
+
+.log-message.error {
+    background: #f8d7da;
+    border-left: 4px solid #dc3545;
+    color: #721c24;
+}
+
+.log-message.warning {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    color: #856404;
+}
+
+.log-message.info {
+    background: #d1ecf1;
+    border-left: 4px solid #17a2b8;
+    color: #0c5460;
+}
+
 .editor-images-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

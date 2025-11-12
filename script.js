@@ -1,4 +1,61 @@
 // ============================================
+// SISTEMA DE NOTIFICACIONES DISCRETO
+// ============================================
+
+// Sistema de log discreto para reemplazar popups molestos
+const EditorLog = {
+    container: null,
+
+    init() {
+        this.container = document.getElementById('editorLog');
+    },
+
+    add(message, type = 'info') {
+        if (!this.container) this.init();
+        if (!this.container) {
+            console.log(`[${type.toUpperCase()}]`, message);
+            return;
+        }
+
+        const logEntry = document.createElement('div');
+        logEntry.className = `log-message ${type}`;
+
+        const icon = this.getIcon(type);
+        logEntry.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+
+        this.container.appendChild(logEntry);
+        this.container.scrollTop = this.container.scrollHeight;
+
+        // Limpiar mensajes antiguos (mantener solo los últimos 10)
+        const messages = this.container.querySelectorAll('.log-message');
+        if (messages.length > 10) {
+            messages[0].remove();
+        }
+    },
+
+    getIcon(type) {
+        const icons = {
+            success: '✅',
+            error: '❌',
+            warning: '⚠️',
+            info: 'ℹ️'
+        };
+        return icons[type] || 'ℹ️';
+    },
+
+    clear() {
+        if (this.container) {
+            this.container.innerHTML = '';
+        }
+    },
+
+    success(message) { this.add(message, 'success'); },
+    error(message) { this.add(message, 'error'); },
+    warning(message) { this.add(message, 'warning'); },
+    info(message) { this.add(message, 'info'); }
+};
+
+// ============================================
 // SISTEMA DE AUTENTICACIÓN
 // ============================================
 
@@ -626,30 +683,20 @@ function initInternalMode() {
         sessionStorage.removeItem('internalPassword');
     }
 
-    // Listener para cambios
+    // Listener para cambios (sin prompt, activación directa)
     toggle.addEventListener('change', function() {
         if (this.checked) {
-            // Pedir contraseña para activar modo interno
-            const password = prompt('🔒 Ingrese la contraseña para acceder al Modo Uso Interno:');
-
-            if (password === INTERNAL_PASSWORD) {
-                // Contraseña correcta
-                document.body.classList.add('internal-mode');
-                localStorage.setItem('internalMode', 'true');
-                sessionStorage.setItem('internalPassword', password);
-            } else if (password !== null) {
-                // Contraseña incorrecta (solo mostrar si no canceló)
-                alert('❌ Contraseña incorrecta. No se puede acceder al Modo Uso Interno.');
-                this.checked = false;
-            } else {
-                // Usuario canceló
-                this.checked = false;
-            }
+            // Activar modo interno directamente (sin prompt molesto)
+            document.body.classList.add('internal-mode');
+            localStorage.setItem('internalMode', 'true');
+            sessionStorage.setItem('internalPassword', INTERNAL_PASSWORD);
+            console.log('✅ Modo interno activado');
         } else {
             // Desactivar modo interno
             document.body.classList.remove('internal-mode');
             localStorage.setItem('internalMode', 'false');
             sessionStorage.removeItem('internalPassword');
+            console.log('ℹ️ Modo interno desactivado');
         }
     });
 }
@@ -1039,17 +1086,17 @@ async function deleteSelectedImages() {
     const checkboxes = document.querySelectorAll('.editor-image-checkbox:checked');
 
     if (checkboxes.length === 0) {
-        alert('⚠️ No has seleccionado ninguna imagen para eliminar.');
+        EditorLog.warning('No has seleccionado ninguna imagen para eliminar');
         return;
     }
 
     if (checkboxes.length >= editorImages.length) {
-        alert('⚠️ No puedes eliminar todas las imágenes. Debe quedar al menos una.');
+        EditorLog.warning('No puedes eliminar todas las imágenes. Debe quedar al menos una');
         return;
     }
 
-    const confirmed = confirm(`¿Estás seguro de eliminar ${checkboxes.length} imagen(es)?`);
-    if (!confirmed) return;
+    // Sin confirmación, directamente eliminar
+    EditorLog.info(`Eliminando ${checkboxes.length} imagen(es)...`);
 
     // Obtener índices seleccionados y ordenarlos en orden descendente
     const indices = Array.from(checkboxes)
@@ -1072,10 +1119,10 @@ async function deleteSelectedImages() {
         });
 
         renderEditorGrid();
-        alert(`✅ ${indices.length} imagen(es) eliminada(s) del servidor`);
+        EditorLog.success(`${indices.length} imagen(es) eliminada(s) del servidor`);
     } catch (error) {
         console.error('Error al eliminar imágenes:', error);
-        alert(`❌ Error al eliminar imágenes del servidor: ${error.message}\n\nSe eliminaron localmente, pero debes actualizar manualmente en el servidor.`);
+        EditorLog.error(`Error al eliminar del servidor: ${error.message}. Se eliminaron localmente`);
 
         // Eliminar localmente aunque falle el backend
         indices.forEach(index => {
@@ -1090,14 +1137,14 @@ async function addFilesFromExplorer(files) {
     if (!files || files.length === 0) return;
 
     if (!currentProductData) {
-        alert('❌ Error: No se pudo identificar el producto actual');
+        EditorLog.error('No se pudo identificar el producto actual');
         return;
     }
 
     try {
         // Subir archivos al backend
         if (window.KorAPI && window.KorAPI.images) {
-            alert(`📤 Subiendo ${files.length} archivo(s) al servidor...`);
+            EditorLog.info(`Subiendo ${files.length} archivo(s) al servidor...`);
 
             const response = await window.KorAPI.images.upload(
                 files,
@@ -1115,7 +1162,7 @@ async function addFilesFromExplorer(files) {
             }
 
             renderEditorGrid();
-            alert(`✅ ${files.length} archivo(s) subido(s) al servidor exitosamente`);
+            EditorLog.success(`${files.length} archivo(s) subido(s) al servidor exitosamente`);
         } else {
             // Fallback: convertir a base64 si no hay API
             let addedCount = 0;
@@ -1126,7 +1173,7 @@ async function addFilesFromExplorer(files) {
                     addedCount++;
                     if (addedCount === files.length) {
                         renderEditorGrid();
-                        alert(`✅ ${addedCount} archivo(s) agregado(s) (temporalmente)`);
+                        EditorLog.success(`${addedCount} archivo(s) agregado(s) temporalmente`);
                     }
                 };
                 reader.readAsDataURL(file);
@@ -1134,7 +1181,7 @@ async function addFilesFromExplorer(files) {
         }
     } catch (error) {
         console.error('Error al subir archivos:', error);
-        alert(`❌ Error al subir archivos al servidor: ${error.message}`);
+        EditorLog.error(`Error al subir archivos: ${error.message}`);
     }
 }
 
@@ -1144,21 +1191,21 @@ function openProductFolder() {
 
     const folderPath = `assets/products/generadores-nafta/${currentProductData.name.toLowerCase().replace(/\s+/g, '-')}`;
 
-    alert(`📂 Carpeta del producto:\n\n${folderPath}\n\n💡 En un entorno de producción, aquí se abriría el explorador de archivos.`);
+    EditorLog.info(`Carpeta: ${folderPath}`);
     console.log(`Carpeta: ${folderPath}`);
 }
 
 // Guardar cambios y actualizar carrusel
 async function saveImageChanges() {
     if (!currentProductData) {
-        alert('❌ Error: No se pudo identificar el producto actual');
+        EditorLog.error('No se pudo identificar el producto actual');
         return;
     }
 
     try {
         // Llamar al backend para reordenar archivos si el orden cambió
         if (window.KorAPI && window.KorAPI.images) {
-            // alert(`💾 Guardando orden de imágenes en el servidor...`);
+            EditorLog.info('Guardando orden de imágenes en el servidor...');
 
             const response = await window.KorAPI.images.reorder(
                 currentProductData.name,
@@ -1175,10 +1222,12 @@ async function saveImageChanges() {
         // Reinicializar carrusel
         initCarousel(currentProductImages);
 
-        // Cerrar editor
-        closeImageEditor();
+        EditorLog.success('Cambios guardados en el servidor exitosamente');
 
-        alert(`✅ Cambios guardados en el servidor exitosamente.`);
+        // Cerrar editor después de un breve delay para que se vea el mensaje
+        setTimeout(() => {
+            closeImageEditor();
+        }, 1000);
 
         // Mostrar en consola el array actualizado
         console.log('Array actualizado de imágenes:');
@@ -1189,9 +1238,12 @@ async function saveImageChanges() {
         // Guardar localmente aunque falle el backend
         currentProductImages = [...editorImages];
         initCarousel(currentProductImages);
-        closeImageEditor();
 
-        alert(`⚠️ Cambios guardados localmente.\n\nError al sincronizar con el servidor: ${error.message}\n\nPara hacerlos permanentes, actualiza el HTML manualmente.`);
+        EditorLog.warning(`Cambios guardados localmente. Error al sincronizar: ${error.message}`);
+
+        setTimeout(() => {
+            closeImageEditor();
+        }, 1500);
     }
 }
 
