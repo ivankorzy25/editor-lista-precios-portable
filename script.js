@@ -158,7 +158,7 @@ const DirectusAPI = {
     async getImagenesProducto(productoId) {
         try {
             const response = await fetch(
-                `${DIRECTUS_URL}/items/imagenes_producto?filter[producto_id][_eq]=${productoId}&fields=*,archivo_id.*&sort=orden`,
+                `${DIRECTUS_URL}/items/producto_imagenes?filter[producto_id][_eq]=${productoId}&fields=*,imagen.*&sort=orden`,
                 { headers: this.getHeaders() }
             );
             const data = await response.json();
@@ -171,14 +171,13 @@ const DirectusAPI = {
 
     async createImagenProducto(productoId, archivoId, orden = 0, esPrincipal = false) {
         try {
-            const response = await fetch(`${DIRECTUS_URL}/items/imagenes_producto`, {
+            const response = await fetch(`${DIRECTUS_URL}/items/producto_imagenes`, {
                 method: 'POST',
                 headers: this.getHeaders(),
                 body: JSON.stringify({
                     producto_id: productoId,
-                    archivo_id: archivoId,
-                    orden: orden,
-                    es_principal: esPrincipal
+                    imagen: archivoId,
+                    orden: orden
                 })
             });
             const data = await response.json();
@@ -191,7 +190,7 @@ const DirectusAPI = {
 
     async updateImagenProducto(id, updates) {
         try {
-            const response = await fetch(`${DIRECTUS_URL}/items/imagenes_producto/${id}`, {
+            const response = await fetch(`${DIRECTUS_URL}/items/producto_imagenes/${id}`, {
                 method: 'PATCH',
                 headers: this.getHeaders(),
                 body: JSON.stringify(updates)
@@ -206,7 +205,7 @@ const DirectusAPI = {
 
     async deleteImagenProducto(id) {
         try {
-            await fetch(`${DIRECTUS_URL}/items/imagenes_producto/${id}`, {
+            await fetch(`${DIRECTUS_URL}/items/producto_imagenes/${id}`, {
                 method: 'DELETE',
                 headers: this.getHeaders()
             });
@@ -358,13 +357,13 @@ function renderProductos(productos) {
     // Cargar imágenes principales de cada producto
     productos.forEach(async (producto) => {
         const imagenes = await DirectusAPI.getImagenesProducto(producto.id);
-        const imagenPrincipal = imagenes.find(img => img.es_principal) || imagenes[0];
+        const imagenPrincipal = imagenes[0]; // Tomar la primera imagen
 
-        if (imagenPrincipal && imagenPrincipal.archivo_id) {
+        if (imagenPrincipal && imagenPrincipal.imagen) {
             const card = grid.querySelector(`[data-product-id="${producto.id}"]`);
             const placeholder = card.querySelector('.product-image-placeholder');
 
-            const imgURL = DirectusAPI.getAssetURL(imagenPrincipal.archivo_id.id, '?width=400&height=300&fit=cover');
+            const imgURL = DirectusAPI.getAssetURL(imagenPrincipal.imagen.id, '?width=400&height=300&fit=cover');
             placeholder.innerHTML = `<img src="${imgURL}" alt="${producto.nombre}" style="width: 100%; height: 200px; object-fit: cover;">`;
         }
     });
@@ -388,8 +387,8 @@ async function viewProduct(productId) {
     const imagenesData = await DirectusAPI.getImagenesProducto(productId);
     currentProductImages = imagenesData.map(img => ({
         id: img.id,
-        fileId: img.archivo_id.id,
-        url: DirectusAPI.getAssetURL(img.archivo_id.id),
+        fileId: img.imagen.id,
+        url: DirectusAPI.getAssetURL(img.imagen.id),
         orden: img.orden
     }));
 
@@ -490,10 +489,9 @@ async function openImageEditor() {
     const imagenesData = await DirectusAPI.getImagenesProducto(currentProduct.id);
     editorImages = imagenesData.map(img => ({
         id: img.id,
-        fileId: img.archivo_id.id,
-        url: DirectusAPI.getAssetURL(img.archivo_id.id),
-        orden: img.orden,
-        esPrincipal: img.es_principal
+        fileId: img.imagen.id,
+        url: DirectusAPI.getAssetURL(img.imagen.id),
+        orden: img.orden
     }));
 
     // Mostrar modal
