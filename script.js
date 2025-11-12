@@ -1324,7 +1324,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentProductData && currentProductData.name) {
                 openProductPDF(currentProductData.name);
             } else {
-                alert('⚠️ No se pudo identificar el producto actual.');
+                console.warn('⚠️ No se pudo identificar el producto actual.');
             }
         });
     }

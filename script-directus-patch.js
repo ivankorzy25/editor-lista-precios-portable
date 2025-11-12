@@ -224,7 +224,7 @@ window.openImageEditor = async function() {
 
         if (!currentProductId) {
             console.error('❌ No se pudo obtener el ID del producto');
-            alert('❌ Error: No se pudo obtener el ID del producto en Directus');
+            if (window.EditorLog) EditorLog.error('No se pudo obtener el ID del producto en Directus');
             return;
         }
 
@@ -237,7 +237,7 @@ window.openImageEditor = async function() {
 
     } catch (error) {
         console.error('❌ ERROR en openImageEditor:', error);
-        alert(`❌ Error abriendo el editor: ${error.message}`);
+        if (window.EditorLog) EditorLog.error(`Error abriendo el editor: ${error.message}`);
     }
 };
 
@@ -253,17 +253,17 @@ window.deleteSelectedImages = async function() {
     const checkboxes = document.querySelectorAll('.editor-image-checkbox:checked');
 
     if (checkboxes.length === 0) {
-        alert('⚠️ No has seleccionado ninguna imagen para eliminar.');
+        if (window.EditorLog) EditorLog.warning('No has seleccionado ninguna imagen para eliminar');
         return;
     }
 
     if (checkboxes.length >= window.editorImages.length) {
-        alert('⚠️ No puedes eliminar todas las imágenes. Debe quedar al menos una.');
+        if (window.EditorLog) EditorLog.warning('No puedes eliminar todas las imágenes. Debe quedar al menos una');
         return;
     }
 
-    const confirmed = confirm(`¿Estás seguro de eliminar ${checkboxes.length} imagen(es)?`);
-    if (!confirmed) return;
+    // Sin confirmación, directamente eliminar
+    if (window.EditorLog) EditorLog.info(`Eliminando ${checkboxes.length} imagen(es) de Directus...`);
 
     // Obtener índices seleccionados (ordenar de mayor a menor para no afectar índices al eliminar)
     const indices = Array.from(checkboxes)
@@ -283,13 +283,13 @@ window.deleteSelectedImages = async function() {
             }
         }
 
-        alert(`✅ ${indices.length} imagen(es) eliminada(s) de Directus`);
+        if (window.EditorLog) EditorLog.success(`${indices.length} imagen(es) eliminada(s) de Directus`);
 
         // Recargar imágenes desde Directus
         await loadImagesFromDirectus();
     } catch (error) {
         console.error('❌ Error eliminando imágenes:', error);
-        alert(`❌ Error: ${error.message}`);
+        if (window.EditorLog) EditorLog.error(`Error al eliminar: ${error.message}`);
     }
 };
 
@@ -305,12 +305,12 @@ window.addFilesFromExplorer = async function(files) {
     if (!files || files.length === 0) return;
 
     if (!currentProductId) {
-        alert('❌ Error: Producto no identificado');
+        if (window.EditorLog) EditorLog.error('Producto no identificado');
         return;
     }
 
     try {
-        alert(`📤 Subiendo ${files.length} archivo(s) a Directus...`);
+        if (window.EditorLog) EditorLog.info(`Subiendo ${files.length} archivo(s) a Directus...`);
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
@@ -352,13 +352,13 @@ window.addFilesFromExplorer = async function(files) {
             console.log(`🔗 Imagen asociada al producto: ${file.name}`);
         }
 
-        alert(`✅ ${files.length} imagen(es) agregada(s) exitosamente`);
+        if (window.EditorLog) EditorLog.success(`${files.length} imagen(es) agregada(s) exitosamente`);
 
         // Recargar imágenes desde Directus
         await loadImagesFromDirectus();
     } catch (error) {
         console.error('❌ Error subiendo imágenes:', error);
-        alert(`❌ Error: ${error.message}`);
+        if (window.EditorLog) EditorLog.error(`Error al subir: ${error.message}`);
     }
 };
 
@@ -372,12 +372,13 @@ window.addFilesFromExplorer = async function(files) {
  */
 window.saveImageChanges = async function() {
     if (!currentProductId) {
-        alert('❌ Error: Producto no identificado');
+        if (window.EditorLog) EditorLog.error('Producto no identificado');
         return;
     }
 
     try {
         console.log('💾 Guardando orden de imágenes en Directus...');
+        if (window.EditorLog) EditorLog.info('Guardando orden de imágenes en Directus...');
 
         // Actualizar orden en Directus
         for (let i = 0; i < editorImageRecords.length; i++) {
@@ -403,15 +404,18 @@ window.saveImageChanges = async function() {
             initCarousel(window.currentProductImages);
         }
 
-        // Cerrar editor (función de script.js)
-        if (typeof closeImageEditor === 'function') {
-            closeImageEditor();
-        }
+        if (window.EditorLog) EditorLog.success('Cambios guardados en Directus correctamente');
 
-        alert('✅ Cambios guardados en Directus correctamente');
+        // Cerrar editor con delay para que se vea el mensaje
+        setTimeout(() => {
+            if (typeof closeImageEditor === 'function') {
+                closeImageEditor();
+            }
+        }, 1000);
+
     } catch (error) {
         console.error('❌ Error guardando cambios:', error);
-        alert(`❌ Error: ${error.message}`);
+        if (window.EditorLog) EditorLog.error(`Error al guardar: ${error.message}`);
     }
 };
 
