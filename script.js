@@ -9,6 +9,26 @@ let currentProductImages = []; // Imágenes del producto actual
 let currentProductFiles = []; // Archivos del producto actual
 
 // ============================================
+// AUTO-LOGIN Y VERIFICACIÓN DE SESIÓN
+// ============================================
+
+// Verificar autenticación al cargar la página
+(function checkAuth() {
+    const isAuthenticated = sessionStorage.getItem('authenticated') === 'true';
+
+    if (isAuthenticated) {
+        // Ocultar pantalla de login
+        const loginScreen = document.getElementById('loginScreen');
+        const mainContent = document.getElementById('mainContent');
+
+        if (loginScreen) loginScreen.style.display = 'none';
+        if (mainContent) mainContent.style.display = 'block';
+
+        console.log('✅ Sesión verificada - acceso concedido');
+    }
+})();
+
+// ============================================
 // SISTEMA DE LOG DISCRETO
 // ============================================
 
