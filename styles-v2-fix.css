@@ -1,0 +1,122 @@
+/* ============================================
+   PARCHE V2 - MEJORAS DE IMÁGENES Y BOTONES
+   ============================================ */
+
+/* Arreglar miniaturas en tabla */
+.product-thumbnail-placeholder {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    background: #f5f5f5;
+    border-radius: 4px;
+    margin: 0 auto;
+}
+
+.product-thumbnail-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.product-thumbnail-cell {
+    text-align: center !important;
+    vertical-align: middle !important;
+    padding: 8px !important;
+}
+
+/* Reducir tamaño de botones a la mitad */
+.btn-edit-images {
+    padding: 6px 12px !important;
+    font-size: 0.8em !important;
+    border-radius: 6px !important;
+    min-width: auto !important;
+}
+
+.btn-edit-files {
+    padding: 6px 12px !important;
+    font-size: 0.8em !important;
+    border-radius: 6px !important;
+    margin-left: 8px !important;
+}
+
+.btn-view-pdf {
+    padding: 8px 12px !important;
+    font-size: 0.9em !important;
+    border-radius: 8px !important;
+}
+
+/* Contenedor de botones de acción */
+.image-quick-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+/* Botón pequeño en tabla */
+.btn-small {
+    padding: 4px 8px !important;
+    font-size: 0.9em !important;
+    background: #fd6600;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-small:hover {
+    background: #e55a00;
+    transform: scale(1.05);
+}
+
+/* Ajustes para el modal */
+.product-actions {
+    margin-bottom: 15px;
+}
+
+/* Mejoras en miniaturas del carrusel */
+.carousel-thumbnail {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: cover !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    border: 2px solid transparent !important;
+}
+
+.carousel-thumbnail:hover {
+    border-color: #fd6600 !important;
+    transform: scale(1.05) !important;
+}
+
+.carousel-thumbnail.active {
+    border-color: #fd6600 !important;
+    box-shadow: 0 0 8px rgba(253, 102, 0, 0.5) !important;
+}
+
+/* Ajuste imagen principal del modal */
+.product-detail-img {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* Contenedor de miniaturas del carrusel */
+.carousel-thumbnails {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
