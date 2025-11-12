@@ -77,6 +77,35 @@ function startDockerDesktop() {
     });
 }
 
+// Iniciar System API
+function startSystemAPI() {
+    return new Promise((resolve) => {
+        const appPath = process.pkg ? path.dirname(process.execPath) : __dirname;
+        const apiPath = path.join(appPath, 'system-api.js');
+
+        if (!fs.existsSync(apiPath)) {
+            console.log('⚠️  System API no encontrado, continuando sin él...');
+            resolve();
+            return;
+        }
+
+        console.log('🔧 Iniciando System API...');
+
+        const systemAPI = spawn('node', [apiPath], {
+            detached: true,
+            stdio: 'ignore'
+        });
+
+        systemAPI.unref();
+
+        // Esperar un momento para que se inicie
+        setTimeout(() => {
+            console.log('✅ System API iniciado (puerto 3001)');
+            resolve();
+        }, 1000);
+    });
+}
+
 // Iniciar Directus
 function startDirectus() {
     return new Promise((resolve, reject) => {
@@ -174,6 +203,7 @@ async function main() {
             await startDockerDesktop();
         }
 
+        await startSystemAPI();
         await startDirectus();
         await checkDirectusHealth();
         openBrowser();

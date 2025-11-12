@@ -1063,8 +1063,8 @@ function loadAttachments() {
     const attachmentsList = document.getElementById('attachmentsList');
     const folderPathSpan = document.getElementById('attachmentsFolderPath');
 
-    // Construir ruta de la carpeta de PDFs
-    const pdfFolderPath = `assets/pdfs/generadores-nafta/`;
+    // NUEVA RUTA: directus-local/uploads/pdfs/
+    const pdfFolderPath = `directus-local/uploads/pdfs/`;
     folderPathSpan.textContent = pdfFolderPath;
 
     // Lista de archivos potenciales
@@ -1098,15 +1098,29 @@ function loadAttachments() {
 }
 
 // Abrir carpeta de archivos adjuntos
-function openAttachmentsFolder() {
+async function openAttachmentsFolder() {
     if (!currentProductData) return;
 
-    const folderPath = `assets/pdfs/generadores-nafta/`;
-    EditorLog.info(`Carpeta de archivos adjuntos: ${folderPath}`);
-    console.log(`📂 Carpeta de archivos adjuntos: ${folderPath}`);
+    const folderPath = 'directus-local/uploads/pdfs/';
 
-    // En un sistema con acceso a APIs nativas, aquí se abriría la carpeta
-    // Por ahora solo mostramos la ruta
+    EditorLog.info('Abriendo carpeta de archivos adjuntos...');
+
+    try {
+        // Llamar a la System API para abrir la carpeta
+        const response = await fetch(`http://localhost:3001/open-folder?path=${encodeURIComponent(folderPath)}`);
+        const data = await response.json();
+
+        if (data.success) {
+            EditorLog.success('Carpeta abierta en el explorador');
+            console.log('📂 Carpeta abierta:', data.path);
+        } else {
+            EditorLog.error('No se pudo abrir la carpeta');
+            console.error('Error:', data.error);
+        }
+    } catch (error) {
+        EditorLog.warning('System API no disponible. Ruta: ' + folderPath);
+        console.error('Error al abrir carpeta:', error);
+    }
 }
 
 // Funciones de Drag & Drop
@@ -1379,8 +1393,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function openProductPDF(productName) {
     // Construir ruta del PDF basada en el nombre del producto
-    // Ejemplo: GL3300AM -> assets/pdfs/generadores-nafta/GL3300AM.pdf
-    const pdfPath = `assets/pdfs/generadores-nafta/${productName.replace(/\s+/g, '_')}.pdf`;
+    // NUEVA UBICACIÓN: directus-local/uploads/pdfs/
+    const pdfPath = `directus-local/uploads/pdfs/${productName.replace(/\s+/g, '_')}.pdf`;
 
     // Intentar abrir el PDF
     window.open(pdfPath, '_blank');
