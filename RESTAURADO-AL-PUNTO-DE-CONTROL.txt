@@ -1,0 +1,98 @@
+====================================================================
+✅ RESTAURADO AL PUNTO DE CONTROL
+====================================================================
+
+Se ejecutó: git reset --hard ce860b3
+
+====================================================================
+ESTADO ACTUAL
+====================================================================
+
+✅ Commit: ce860b3 "Editor de Imágenes integrado con Directus CMS - FUNCIONANDO"
+✅ Archivos restaurados:
+   - index.html (estado original, SIN cambios de archivos)
+   - indexv1.html (copia de seguridad)
+   - script.js
+   - script-directus-patch.js (solo integración de imágenes)
+   - styles.css
+
+✅ Archivos ELIMINADOS (todos los cambios de archivos):
+   - script-archivos-patch.js
+   - script-archivos-simple.js
+   - auto-fix-editar-imagenes.js
+   - Todos los archivos de testing y documentación
+
+====================================================================
+QUÉ FUNCIONA AHORA
+====================================================================
+
+✅ Editor de imágenes con Directus
+   - Abrir editor de imágenes
+   - Ver las 12 imágenes del producto GL3300AM
+   - Agregar imágenes
+   - Reordenar imágenes (drag & drop)
+   - Eliminar imágenes
+   - Guardar cambios en Directus
+
+✅ Directus corriendo:
+   - URL: http://localhost:8055
+   - Login: admin@generadores.ar / kor2025
+   - Colección: producto_imagenes (con 12 imágenes)
+
+====================================================================
+QUÉ NO ESTÁ
+====================================================================
+
+❌ Sistema de gestión de archivos (badges, PDF, HTML, etc.)
+❌ Botones para agregar documentos
+❌ Modal de carga de archivos
+❌ Badges de tipos de archivos
+
+====================================================================
+ARCHIVOS DISPONIBLES
+====================================================================
+
+index.html       - Versión original funcionando
+indexv1.html     - Copia de seguridad (idéntica a index.html en este punto)
+
+====================================================================
+CÓMO USAR
+====================================================================
+
+1. Abrí: C:\Users\Ivan\Desktop\recupero\index.html
+
+2. Login: admin / kor2025
+
+3. Click en cualquier producto
+
+4. Click en "✏️ Editar Imágenes"
+
+5. Deberías ver las 12 imágenes cargando correctamente
+
+6. Podés:
+   - Arrastar imágenes para reordenar
+   - Seleccionar con checkbox y eliminar
+   - Agregar nuevas imágenes
+   - Guardar cambios
+
+====================================================================
+DIRECTUS
+====================================================================
+
+✅ Corriendo en Docker
+✅ Puerto: 8055
+✅ Base de datos SQLite: directus-local/database/data.db
+✅ Colecciones:
+   - productos (con Logus GL3300AM)
+   - producto_imagenes (con 12 imágenes)
+
+====================================================================
+SI QUERÉS VOLVER A INTENTAR EL SISTEMA DE ARCHIVOS
+====================================================================
+
+Decímelo y lo hacemos desde cero, pero esta vez:
+1. Primero probar CADA función individualmente
+2. Sin agregar complejidad hasta que no funcione
+3. Con commits frecuentes para poder volver atrás
+
+====================================================================

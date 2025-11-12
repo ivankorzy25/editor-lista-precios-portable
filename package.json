@@ -1,0 +1,15 @@
+{
+  "name": "kor-generadores-launcher",
+  "version": "1.0.0",
+  "description": "KOR Generadores - Sistema Portable",
+  "main": "launcher.js",
+  "bin": "launcher.js",
+  "scripts": {
+    "build": "pkg launcher.js --targets node18-win-x64 --output KOR-Generadores.exe"
+  },
+  "author": "KOR Generadores",
+  "pkg": {
+    "assets": [],
+    "scripts": []
+  }
+}

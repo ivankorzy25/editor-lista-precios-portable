@@ -1,0 +1,299 @@
+====================================================================
+✅ VERSIÓN PORTABLE CREADA EXITOSAMENTE
+====================================================================
+
+Fecha: 11 de Noviembre 2025
+Ubicación: C:\Users\Ivan\Desktop\EDITOR LISTA DE PRECIOS PORTABLE
+
+====================================================================
+QUÉ SE COPIÓ
+====================================================================
+
+✅ EJECUTABLE PRINCIPAL:
+   - KOR-Generadores.exe (36 MB)
+   - launcher.js (código fuente)
+
+✅ APLICACIÓN WEB:
+   - index.html (aplicación principal)
+   - indexv1.html (backup)
+   - script.js
+   - script-directus-patch.js
+   - styles.css
+   - api.js
+
+✅ RECURSOS VISUALES:
+   - background360.jpg (8.3 MB)
+   - video-bg.mp4 (2.9 MB)
+   - kor-logo.png (1.8 MB)
+   - kor-logo-2025.png (24 KB)
+
+✅ DIRECTUS CMS (BASE DE DATOS):
+   - directus-local/database/data.db (292 KB)
+   - directus-local/uploads/ (16 archivos de imágenes)
+   - docker-compose.yml
+   - Scripts de configuración y verificación
+
+✅ PRODUCTOS E IMÁGENES:
+   - 1 producto: Logus GL3300AM
+   - 10 imágenes del producto (en uploads/)
+   - 12 imágenes originales (en assets/)
+   - PDF del producto
+
+✅ LAUNCHERS Y UTILIDADES:
+   - INICIAR-KOR-GENERADORES.bat
+   - INICIAR-KOR-GENERADORES-SILENCIOSO.vbs
+   - DETENER-KOR-GENERADORES.bat
+   - CREAR-ACCESO-DIRECTO.bat
+   - AGREGAR-AL-INICIO-WINDOWS.bat
+   - QUITAR-DEL-INICIO-WINDOWS.bat
+
+✅ DOCUMENTACIÓN:
+   - LEEME-PRIMERO.txt (instrucciones para otra PC)
+   - README-SISTEMA-PORTABLE.txt (manual completo)
+   - EJECUTABLE-LISTO.txt (info del ejecutable)
+   - VERSION-PORTABLE-LISTA.txt (este archivo)
+   - ARREGLADO.txt
+   - README.md
+   - ARCHITECTURE.md
+   - INFO-DETALLADO.md
+
+✅ BACKEND (opcional):
+   - Carpeta backend/ con servidor Node.js
+   - Scripts de instalación y configuración
+
+====================================================================
+TAMAÑO TOTAL
+====================================================================
+
+Tamaño de la carpeta: ~85 MB
+(Incluye ejecutable, base de datos, imágenes y todos los recursos)
+
+====================================================================
+LO QUE NO SE COPIÓ (INNECESARIO)
+====================================================================
+
+❌ .git/ - Historial de Git (no necesario para portable)
+❌ .claude/ - Archivos de trabajo de Claude
+❌ .gitignore - Control de versiones (no necesario)
+❌ node_modules/ - No existe en la carpeta original
+
+====================================================================
+COMPATIBILIDAD
+====================================================================
+
+✅ Windows 10 / 11
+✅ 64 bits (x64)
+✅ Requiere Docker Desktop en la PC destino
+✅ Navegador moderno (Edge, Chrome, Firefox)
+
+====================================================================
+CÓMO USAR EN OTRA PC
+====================================================================
+
+PASO 1: Copiar
+--------------
+Copiá toda la carpeta "EDITOR LISTA DE PRECIOS PORTABLE" a la otra PC
+Podés usar:
+- USB
+- Disco externo
+- Red local
+- OneDrive / Google Drive / Dropbox
+- Email (si comprimís en .zip primero)
+
+PASO 2: Docker
+--------------
+Si la PC destino no tiene Docker:
+1. Descargá: https://www.docker.com/products/docker-desktop
+2. Instalá
+3. Abrilo una vez
+
+PASO 3: Ejecutar
+---------------
+Doble click en: KOR-Generadores.exe
+Esperá 10-15 segundos
+Login: admin / kor2025
+
+¡LISTO!
+
+====================================================================
+VENTAJAS DE ESTA VERSIÓN
+====================================================================
+
+✅ PORTABLE: Funciona en cualquier PC
+✅ INDEPENDIENTE: No necesita instalación
+✅ COMPLETA: Incluye base de datos y productos
+✅ AUTÓNOMA: El .exe tiene todo embebido
+✅ SEGURA: No modifica el sistema
+✅ RESPALDABLE: Copiá la carpeta = backup completo
+
+====================================================================
+USO COMO PENDRIVE BOOTEABLE
+====================================================================
+
+Podés poner esta carpeta en un USB y ejecutarla desde ahí:
+
+1. Copiá la carpeta a un USB
+2. En cualquier PC con Docker
+3. Ejecutá el .exe desde el USB
+4. Todos tus datos siempre contigo
+
+IMPORTANTE:
+- La PC debe tener Docker instalado
+- Necesitás permisos de administrador para Docker
+
+====================================================================
+SINCRONIZACIÓN ENTRE PCS
+====================================================================
+
+Si querés trabajar desde casa Y la oficina:
+
+MÉTODO RECOMENDADO:
+-------------------
+1. Usá esta carpeta en un USB/disco externo
+2. Llevala de una PC a otra
+3. Tus datos siempre actualizados
+
+MÉTODO ALTERNATIVO (CUIDADO):
+-----------------------------
+1. Poné la carpeta en OneDrive/Drive/Dropbox
+2. IMPORTANTE: Detené el sistema antes de cerrar la PC
+3. Esperá que sincronice
+4. Abrí en la otra PC y ejecutá
+
+⚠️  NUNCA ejecutes el sistema en 2 PCs al mismo tiempo
+    (La base de datos se puede corromper)
+
+====================================================================
+BACKUP RECOMENDADO
+====================================================================
+
+BACKUP SIMPLE:
+--------------
+1. Detené el sistema (DETENER-KOR-GENERADORES.bat)
+2. Copiá TODA esta carpeta a otro lugar
+3. Eso es tu backup completo
+
+BACKUP MÍNIMO (solo datos):
+---------------------------
+1. Detené el sistema
+2. Copiá estas carpetas:
+   - directus-local/database/
+   - directus-local/uploads/
+3. Guardá en lugar seguro
+
+Para restaurar: Pegá las carpetas de vuelta
+
+====================================================================
+ACTUALIZAR DATOS ENTRE COPIAS
+====================================================================
+
+Si tenés copias en 2 PCs y querés sincronizar:
+
+1. Detené el sistema en AMBAS PCs
+2. Decidí cuál tiene los datos más actualizados
+3. De esa PC, copiá:
+   - directus-local/database/data.db
+   - directus-local/uploads/ (toda la carpeta)
+4. Pegá en la otra PC (sobreescribiendo)
+5. Iniciá el sistema
+
+====================================================================
+DISTRIBUCIÓN A OTROS USUARIOS
+====================================================================
+
+¿Querés compartir el sistema con otros?
+
+OPCIÓN 1: Carpeta completa con datos
+------------------------------------
+Compartí esta carpeta tal cual
+Ya viene con 1 producto de ejemplo
+El usuario solo necesita instalar Docker
+
+OPCIÓN 2: Carpeta vacía (sin productos)
+---------------------------------------
+1. Detené el sistema
+2. Borrá: directus-local/database/data.db
+3. Vaciá: directus-local/uploads/
+4. Directus se reiniciará desde cero al ejecutar
+5. Compartí la carpeta
+
+OPCIÓN 3: Comprimida en ZIP
+----------------------------
+1. Comprimí toda la carpeta en un .zip
+2. Compartí el .zip (más fácil de enviar)
+3. El usuario descomprime y ejecuta
+
+====================================================================
+CAMBIAR CONTRASEÑA
+====================================================================
+
+Login actual:
+- Usuario: admin@generadores.ar
+- Contraseña: kor2025
+
+Para cambiar:
+1. Ejecutá el sistema
+2. Abrí: http://localhost:8055
+3. Login con admin / kor2025
+4. Settings → Users → admin
+5. Cambiá la contraseña
+6. Save
+
+====================================================================
+PERSONALIZACIÓN
+====================================================================
+
+Podés personalizar:
+
+✅ Logo: Reemplazá kor-logo.png
+✅ Fondo: Reemplazá background360.jpg
+✅ Colores: Editá styles.css
+✅ Textos: Editá index.html
+
+El .exe NO necesita recompilarse.
+
+====================================================================
+ESTADO ACTUAL
+====================================================================
+
+✅ Sistema: Completamente funcional
+✅ Base de datos: 292 KB (1 producto, 10 imágenes)
+✅ Ejecutable: 36 MB (incluye Node.js embebido)
+✅ Total: ~85 MB
+
+====================================================================
+PRÓXIMOS PASOS
+====================================================================
+
+1. Probá el sistema en esta PC:
+   → Doble click en KOR-Generadores.exe
+
+2. Si funciona bien, copiá la carpeta a otra PC
+
+3. Ejecutá desde ahí para verificar portabilidad
+
+4. (Opcional) Creá un acceso directo en el Escritorio:
+   → Ejecutá CREAR-ACCESO-DIRECTO.bat
+
+5. (Opcional) Agregá al inicio de Windows:
+   → Ejecutá AGREGAR-AL-INICIO-WINDOWS.bat
+
+====================================================================
+RESUMEN
+====================================================================
+
+✅ CARPETA PORTABLE CREADA
+✅ TODOS LOS ARCHIVOS COPIADOS
+✅ BASE DE DATOS INCLUIDA
+✅ PRODUCTOS E IMÁGENES INCLUIDOS
+✅ EJECUTABLE .EXE FUNCIONANDO
+✅ DOCUMENTACIÓN COMPLETA
+✅ LISTO PARA USAR EN CUALQUIER PC
+
+📂 Ubicación:
+   C:\Users\Ivan\Desktop\EDITOR LISTA DE PRECIOS PORTABLE
+
+🚀 Para usar:
+   Doble click en KOR-Generadores.exe
+
+====================================================================

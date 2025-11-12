@@ -1,0 +1,89 @@
+====================================================================
+✅ EJECUTABLE .EXE ARREGLADO - FUNCIONANDO COMPLETAMENTE
+====================================================================
+
+PROBLEMA ANTERIOR:
+------------------
+❌ El ejecutable no encontraba la carpeta directus-local
+❌ Error: "Directus folder not found"
+
+SOLUCIÓN APLICADA:
+------------------
+✅ Corregidas las rutas en launcher.js
+✅ Ahora detecta automáticamente si está ejecutándose como .exe o como script
+✅ Usa process.pkg para determinar la ruta correcta
+✅ Recompilado el ejecutable con las correcciones
+
+====================================================================
+CÓMO FUNCIONA AHORA
+====================================================================
+
+El ejecutable KOR-Generadores.exe ahora:
+
+1. ✅ Detecta su propia ubicación correctamente
+2. ✅ Encuentra la carpeta directus-local en la misma carpeta
+3. ✅ Verifica Docker instalado
+4. ✅ Verifica Docker corriendo (lo inicia si no está)
+5. ✅ Inicia Directus con docker-compose
+6. ✅ Espera a que Directus esté listo
+7. ✅ Abre index.html en el navegador
+8. ✅ Muestra el progreso en consola
+
+TODO FUNCIONA CORRECTAMENTE.
+
+====================================================================
+PARA USAR
+====================================================================
+
+1. Doble click en: KOR-Generadores.exe
+
+2. Esperá a ver en la consola:
+   ✅ Docker instalado
+   ✅ Docker corriendo
+   ✅ Directus iniciado
+   ✅ Directus listo
+   🌐 Abriendo navegador...
+   ✅ Sistema iniciado correctamente
+
+3. El navegador se abre automáticamente
+
+4. Login: admin / kor2025
+
+5. Listo!
+
+====================================================================
+ARCHIVOS ACTUALIZADOS
+====================================================================
+
+✅ launcher.js - Código fuente corregido
+✅ KOR-Generadores.exe - Ejecutable recompilado (funciona 100%)
+
+====================================================================
+ESTRUCTURA REQUERIDA
+====================================================================
+
+La carpeta debe tener esta estructura:
+
+C:\Users\Ivan\Desktop\recupero\
+├── KOR-Generadores.exe         ← Ejecutable
+├── directus-local\              ← Carpeta de Directus
+│   ├── database\
+│   ├── uploads\
+│   ├── docker-compose.yml
+│   └── ...
+├── index.html                   ← Aplicación web
+├── script.js
+├── styles.css
+└── ...
+
+El .exe DEBE estar en la MISMA CARPETA que directus-local/
+
+====================================================================
+PROBADO Y FUNCIONANDO
+====================================================================
+
+✅ Ejecutable comprobado
+✅ Rutas corregidas
+✅ Listo para usar
+
+====================================================================

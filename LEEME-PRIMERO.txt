@@ -1,0 +1,232 @@
+====================================================================
+📦 EDITOR LISTA DE PRECIOS - VERSIÓN PORTABLE
+====================================================================
+
+✅ SISTEMA COMPLETAMENTE PORTABLE Y AUTÓNOMO
+
+Esta carpeta contiene TODO lo necesario para usar el sistema en
+CUALQUIER PC con Windows.
+
+====================================================================
+REQUISITOS EN LA PC DESTINO
+====================================================================
+
+OBLIGATORIO:
+✅ Windows 10/11
+✅ Docker Desktop instalado
+   👉 Descargá de: https://www.docker.com/products/docker-desktop
+
+OPCIONAL (recomendado):
+✅ Microsoft Edge (o cualquier navegador moderno)
+
+====================================================================
+CÓMO USAR EN OTRA PC
+====================================================================
+
+1️⃣  COPIAR LA CARPETA COMPLETA
+   ---------------------------
+   Copiá TODA esta carpeta a la otra PC:
+   - Por USB
+   - Por red
+   - Por la nube (Drive, OneDrive, etc.)
+
+   Podés ponerla en cualquier lugar:
+   - C:\Programas\
+   - D:\MisAplicaciones\
+   - C:\Users\TuNombre\Desktop\
+   - Donde quieras!
+
+2️⃣  INSTALAR DOCKER (si no está instalado)
+   ---------------------------------------
+   - Descargá Docker Desktop: https://www.docker.com/products/docker-desktop
+   - Instalalo
+   - Abrilo una vez para que se configure
+   - Listo
+
+3️⃣  EJECUTAR EL SISTEMA
+   --------------------
+   Doble click en: KOR-Generadores.exe
+
+   Eso es TODO. El ejecutable:
+   ✅ Verifica que Docker esté corriendo
+   ✅ Inicia Directus automáticamente
+   ✅ Abre el navegador con la aplicación
+   ✅ Todo listo en 10-15 segundos
+
+4️⃣  LOGIN
+   ------
+   Usuario: admin
+   Contraseña: kor2025
+
+====================================================================
+CONTENIDO DE LA CARPETA
+====================================================================
+
+⭐ KOR-Generadores.exe
+   El ejecutable principal - DOBLE CLICK Y LISTO
+
+📂 directus-local/
+   Base de datos y archivos del sistema
+   ✅ database/data.db - Tu base de datos SQLite
+   ✅ uploads/ - Todas las imágenes subidas
+
+📄 index.html
+   La aplicación web (se abre automáticamente)
+
+🛠️ Archivos de configuración:
+   - INICIAR-KOR-GENERADORES.bat
+   - DETENER-KOR-GENERADORES.bat
+   - CREAR-ACCESO-DIRECTO.bat
+   - AGREGAR-AL-INICIO-WINDOWS.bat
+   - QUITAR-DEL-INICIO-WINDOWS.bat
+
+📖 Documentación:
+   - README-SISTEMA-PORTABLE.txt (instrucciones completas)
+   - EJECUTABLE-LISTO.txt (info del ejecutable)
+
+====================================================================
+DATOS INCLUIDOS
+====================================================================
+
+La carpeta YA VIENE CON:
+✅ 1 producto de ejemplo: Logus GL3300AM
+✅ 10 imágenes del producto
+✅ Base de datos configurada
+✅ Todo listo para usar
+
+Podés:
+- Agregar más productos
+- Subir más imágenes
+- Editar los productos existentes
+- Reordenar imágenes con drag & drop
+- Eliminar lo que no necesites
+
+====================================================================
+PORTABILIDAD TOTAL
+====================================================================
+
+✅ NO necesita instalación
+✅ NO modifica el registro de Windows
+✅ NO deja archivos en el sistema
+✅ Funciona desde USB, disco externo, red, etc.
+✅ Podés tener múltiples copias en distintas PCs
+✅ Cada copia es INDEPENDIENTE (tiene su propia base de datos)
+
+====================================================================
+BACKUP DE TUS DATOS
+====================================================================
+
+Para hacer backup de tus productos e imágenes:
+
+1. Detené el sistema (ejecutá: DETENER-KOR-GENERADORES.bat)
+
+2. Copiá estas carpetas a un lugar seguro:
+   - directus-local/database/
+   - directus-local/uploads/
+
+3. Para restaurar, simplemente pegá las carpetas de vuelta
+
+O MÁS SIMPLE: Copiá TODA la carpeta "EDITOR LISTA DE PRECIOS PORTABLE"
+a otro lugar. Esa copia ES tu backup completo.
+
+====================================================================
+USAR EN MÚLTIPLES PCS
+====================================================================
+
+¿Querés trabajar desde casa Y desde la oficina?
+
+OPCIÓN A: USB/Disco Externo
+   Poné esta carpeta en un USB o disco externo
+   Ejecutá KOR-Generadores.exe desde ahí
+   Tus datos siempre están con vos
+
+OPCIÓN B: Copias Separadas
+   Hacé una copia de esta carpeta en cada PC
+   Cada copia funciona independiente
+   Sincronizá manualmente cuando necesites
+
+OPCIÓN C: Carpeta Sincronizada
+   Poné esta carpeta en OneDrive/Google Drive/Dropbox
+   IMPORTANTE: Detené el sistema antes de que sincronice
+   (No uses la BD mientras se sincroniza)
+
+====================================================================
+SOLUCIÓN DE PROBLEMAS
+====================================================================
+
+❌ "Docker no está instalado"
+   Instalá Docker Desktop
+
+❌ "Docker no está corriendo"
+   El sistema lo inicia automáticamente
+   Si falla, abrí Docker Desktop manualmente
+
+❌ No se ve nada al ejecutar el .exe
+   Abrí KOR-Generadores.exe
+   Aparece una consola mostrando el progreso
+   Esperá 10-15 segundos
+
+❌ "No se encontró la carpeta directus-local"
+   Asegurate de ejecutar el .exe desde DENTRO de esta carpeta
+   No lo muevas a otro lado sin mover todo lo demás
+
+❌ El navegador no se abre
+   Abrí manualmente: file:///RUTA/A/LA/CARPETA/index.html
+
+====================================================================
+ACCESOS DIRECTOS (OPCIONAL)
+====================================================================
+
+Para mayor comodidad:
+
+1. Ejecutá: CREAR-ACCESO-DIRECTO.bat
+   → Crea un icono en el Escritorio
+
+2. Ejecutá: AGREGAR-AL-INICIO-WINDOWS.bat
+   → Se inicia automáticamente al encender la PC
+
+====================================================================
+CARACTERÍSTICAS DEL SISTEMA
+====================================================================
+
+✅ Gestión de productos
+✅ Editor de imágenes (agregar, reordenar, eliminar)
+✅ Búsqueda de productos
+✅ Drag & drop para reordenar imágenes
+✅ Selección múltiple de imágenes
+✅ Vista previa de imágenes
+✅ Interfaz moderna y fácil de usar
+✅ Base de datos SQLite (rápida y confiable)
+✅ Sin necesidad de servidor externo
+
+====================================================================
+SOPORTE
+====================================================================
+
+Para más información, leé:
+- README-SISTEMA-PORTABLE.txt (instrucciones detalladas)
+- EJECUTABLE-LISTO.txt (info técnica del ejecutable)
+
+====================================================================
+VERSIÓN
+====================================================================
+
+Sistema: KOR Generadores - Editor de Lista de Precios
+Versión: 1.0 Portable
+Fecha: Noviembre 2025
+Motor: Directus CMS + Node.js (embebido en el .exe)
+
+====================================================================
+RESUMEN RÁPIDO
+====================================================================
+
+1. Copiá la carpeta a cualquier PC
+2. Instalá Docker Desktop (si no está)
+3. Doble click en KOR-Generadores.exe
+4. Esperá 10-15 segundos
+5. Login: admin / kor2025
+6. ¡A trabajar!
+
+ES ASÍ DE SIMPLE.
+
+====================================================================
