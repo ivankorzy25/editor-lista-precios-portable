@@ -30,32 +30,43 @@
 
 /* Reducir tamaño de botones a la mitad */
 .btn-edit-images {
-    padding: 6px 12px !important;
-    font-size: 0.8em !important;
+    padding: 8px 16px !important;
+    font-size: 0.85em !important;
     border-radius: 6px !important;
     min-width: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin: 0 !important;
 }
 
 .btn-edit-files {
-    padding: 6px 12px !important;
-    font-size: 0.8em !important;
+    padding: 8px 16px !important;
+    font-size: 0.85em !important;
     border-radius: 6px !important;
-    margin-left: 8px !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
 }
 
 .btn-view-pdf {
-    padding: 8px 12px !important;
-    font-size: 0.9em !important;
+    padding: 10px 20px !important;
+    font-size: 0.95em !important;
     border-radius: 8px !important;
+    margin-bottom: 12px !important;
 }
 
-/* Contenedor de botones de acción */
+/* Contenedor de botones de acción - Organizado horizontalmente */
 .image-quick-actions {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     justify-content: center;
-    margin-top: 10px;
-    flex-wrap: wrap;
+    margin-top: 15px;
+    flex-wrap: nowrap;
+    padding: 10px;
+    background: rgba(253, 102, 0, 0.05);
+    border-radius: 8px;
 }
 
 /* Botón pequeño en tabla */

@@ -277,7 +277,7 @@ async function cargarImagenesMiniaturas() {
         if (imagenes.length > 0 && imagenes[0].imagen) {
             const thumbnail = document.getElementById(`thumb-${producto.id}`);
             if (thumbnail) {
-                const imgURL = DirectusAPI.getAssetURL(imagenes[0].imagen.id, '?width=100&height=100&fit=cover');
+                const imgURL = DirectusAPI.getAssetURL(imagenes[0].imagen, '?width=100&height=100&fit=cover');
                 thumbnail.innerHTML = `<img src="${imgURL}" alt="${producto.nombre}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">`;
             }
         }
@@ -356,9 +356,9 @@ function cargarCarrusel(imagenes, nombreProducto) {
 
     let currentIndex = 0;
 
-    // Imagen principal
+    // Imagen principal (imagen es el UUID directamente)
     if (imagenes[0] && imagenes[0].imagen) {
-        mainImg.src = DirectusAPI.getAssetURL(imagenes[0].imagen.id, '?width=800&height=600&fit=contain');
+        mainImg.src = DirectusAPI.getAssetURL(imagenes[0].imagen, '?width=800&height=600&fit=contain');
         mainImg.alt = nombreProducto;
     }
 
@@ -367,12 +367,12 @@ function cargarCarrusel(imagenes, nombreProducto) {
     imagenes.forEach((img, index) => {
         if (img.imagen) {
             const thumb = document.createElement('img');
-            thumb.src = DirectusAPI.getAssetURL(img.imagen.id, '?width=100&height=100&fit=cover');
+            thumb.src = DirectusAPI.getAssetURL(img.imagen, '?width=100&height=100&fit=cover');
             thumb.alt = `${nombreProducto} - imagen ${index + 1}`;
             thumb.className = 'carousel-thumbnail' + (index === 0 ? ' active' : '');
             thumb.onclick = () => {
                 currentIndex = index;
-                mainImg.src = DirectusAPI.getAssetURL(img.imagen.id, '?width=800&height=600&fit=contain');
+                mainImg.src = DirectusAPI.getAssetURL(img.imagen, '?width=800&height=600&fit=contain');
                 document.querySelectorAll('.carousel-thumbnail').forEach(t => t.classList.remove('active'));
                 thumb.classList.add('active');
             };
