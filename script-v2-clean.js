@@ -416,6 +416,11 @@ function cargarCarrusel(imagenes, nombreProducto) {
         mainImg.alt = nombreProducto;
     }
 
+    // Click en imagen principal abre lightbox
+    mainImg.onclick = () => {
+        abrirLightbox(imagenes, currentIndex, nombreProducto);
+    };
+
     // Miniaturas
     thumbnailsContainer.innerHTML = '';
     imagenes.forEach((img, index) => {
@@ -451,6 +456,78 @@ function cargarCarrusel(imagenes, nombreProducto) {
             document.querySelectorAll('.carousel-thumbnail')[currentIndex].click();
         };
     }
+}
+
+// ==== LIGHTBOX PARA ZOOM DE IMÁGENES ====
+function abrirLightbox(imagenes, indiceInicial, nombreProducto) {
+    const lightbox = document.getElementById('imageLightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    const lightboxClose = document.querySelector('.lightbox-close');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+
+    if (!lightbox || !lightboxImg) return;
+
+    let currentIndex = indiceInicial;
+
+    // Función para mostrar imagen
+    const mostrarImagen = (index) => {
+        if (imagenes[index] && imagenes[index].imagen) {
+            // Imagen en alta resolución para el lightbox
+            lightboxImg.src = DirectusAPI.getAssetURL(imagenes[index].imagen, '?width=1920&height=1080&fit=contain');
+            lightboxImg.alt = `${nombreProducto} - imagen ${index + 1}`;
+
+            if (lightboxCounter) {
+                lightboxCounter.textContent = `${index + 1} / ${imagenes.length}`;
+            }
+        }
+    };
+
+    // Mostrar lightbox
+    lightbox.style.display = 'flex';
+    mostrarImagen(currentIndex);
+
+    // Cerrar lightbox
+    const cerrar = () => {
+        lightbox.style.display = 'none';
+    };
+
+    lightboxClose.onclick = cerrar;
+    lightbox.onclick = (e) => {
+        if (e.target === lightbox) cerrar();
+    };
+
+    // Navegación
+    if (lightboxPrev) {
+        lightboxPrev.onclick = (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + imagenes.length) % imagenes.length;
+            mostrarImagen(currentIndex);
+        };
+    }
+
+    if (lightboxNext) {
+        lightboxNext.onclick = (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % imagenes.length;
+            mostrarImagen(currentIndex);
+        };
+    }
+
+    // Navegación con teclado
+    const handleKeyboard = (e) => {
+        if (e.key === 'Escape') {
+            cerrar();
+            document.removeEventListener('keydown', handleKeyboard);
+        } else if (e.key === 'ArrowLeft') {
+            lightboxPrev.click();
+        } else if (e.key === 'ArrowRight') {
+            lightboxNext.click();
+        }
+    };
+
+    document.addEventListener('keydown', handleKeyboard);
 }
 
 function configurarBotonesDirectus(productoId, archivos) {
