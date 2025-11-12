@@ -1847,6 +1847,218 @@ tbody td {
     text-overflow: ellipsis;
 }
 
+/* ========================================
+   EDITOR DE ARCHIVOS (FILE EDITOR)
+   ======================================== */
+
+/* Botón para abrir editor de archivos */
+.btn-edit-files {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.btn-edit-files:hover {
+    background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+}
+
+/* Modal del editor de archivos */
+.file-editor-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.file-editor-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-editor-content {
+    background: white;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 90vh;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.file-editor-header {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: white;
+    padding: 20px 25px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-editor-header h2 {
+    margin: 0;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-editor-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 2em;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-editor-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.file-editor-body {
+    padding: 25px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Grid de archivos */
+.file-editor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.file-editor-item {
+    position: relative;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.file-editor-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(6, 182, 212, 0.3);
+    border-color: #06b6d4;
+}
+
+.file-editor-item.selected {
+    background: #ecfeff;
+    border-color: #06b6d4;
+    border-width: 3px;
+}
+
+.file-icon {
+    font-size: 3em;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+    border-radius: 10px;
+}
+
+.file-checkbox {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.file-name {
+    font-size: 0.9em;
+    color: #2c3e50;
+    text-align: center;
+    font-weight: 600;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+.file-type {
+    font-size: 0.75em;
+    color: #06b6d4;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #ecfeff;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.file-size {
+    font-size: 0.75em;
+    color: #6b7280;
+}
+
+/* Botones específicos para archivos */
+.btn-add-files {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+}
+
+.btn-add-files:hover {
+    background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+}
+
+/* Info del editor de archivos */
+.file-editor-body .editor-info {
+    border-left-color: #06b6d4;
+}
+
+/* Log del editor de archivos */
+.file-editor-body .editor-log {
+    margin-top: 15px;
+}
+
 /* Estilos especiales para PDFs en el editor */
 .editor-pdf-item {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

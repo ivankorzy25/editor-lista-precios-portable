@@ -25,3 +25,6 @@ background360.jpg
 # Variables de entorno
 .env
 .env.local
+
+# Claude settings con tokens
+.claude/settings.local.json

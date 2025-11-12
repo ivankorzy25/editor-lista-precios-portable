@@ -1123,6 +1123,257 @@ async function openAttachmentsFolder() {
     }
 }
 
+// ========================================
+// EDITOR DE ARCHIVOS (FILE EDITOR)
+// ========================================
+
+let fileEditorFiles = [];
+
+// Abrir editor de archivos
+async function openFileEditor() {
+    const modal = document.getElementById('fileEditorModal');
+    if (!modal || !currentProductData) return;
+
+    // Actualizar nombre del producto en el editor
+    document.getElementById('fileEditorProductName').textContent = currentProductData.name;
+
+    // Construir ruta de carpeta
+    const folderPath = `directus-local/uploads/pdfs/`;
+    document.getElementById('fileEditorFolderPath').textContent = folderPath;
+
+    // Mostrar modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Limpiar log anterior
+    const logContainer = document.getElementById('fileEditorLog');
+    if (logContainer) logContainer.innerHTML = '';
+
+    // Cargar archivos
+    await loadFileEditorFiles();
+}
+
+// Cerrar editor de archivos
+function closeFileEditor() {
+    const modal = document.getElementById('fileEditorModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Cargar archivos desde directus
+async function loadFileEditorFiles() {
+    try {
+        const folderPath = 'directus-local/uploads/pdfs/';
+
+        // Buscar archivos en el sistema (usando fetch simulado o API)
+        // Por ahora usamos los datos del producto si hay PDFs
+        fileEditorFiles = [];
+
+        // Buscar archivos PDF y otros en la carpeta del producto
+        if (currentProductData && currentProductData.pdf_path) {
+            fileEditorFiles.push({
+                name: currentProductData.pdf_path.split('/').pop(),
+                type: 'pdf',
+                path: currentProductData.pdf_path,
+                size: 'N/A'
+            });
+        }
+
+        // Renderizar grid
+        renderFileEditorGrid();
+
+        logFileEditor('Archivos cargados', 'success');
+    } catch (error) {
+        console.error('Error cargando archivos:', error);
+        logFileEditor('Error al cargar archivos', 'error');
+    }
+}
+
+// Renderizar grid de archivos
+function renderFileEditorGrid() {
+    const grid = document.getElementById('fileEditorGrid');
+    grid.innerHTML = '';
+
+    document.getElementById('fileEditorFileCount').textContent = fileEditorFiles.length;
+
+    if (fileEditorFiles.length === 0) {
+        grid.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">No hay archivos en esta carpeta</p>';
+        return;
+    }
+
+    fileEditorFiles.forEach((file, index) => {
+        const item = document.createElement('div');
+        item.className = 'file-editor-item';
+        item.dataset.index = index;
+
+        // Determinar icono según tipo de archivo
+        const icon = getFileIcon(file.name);
+        const fileType = getFileType(file.name);
+
+        item.innerHTML = `
+            <input type="checkbox" class="file-checkbox" data-index="${index}">
+            <div class="file-icon">${icon}</div>
+            <div class="file-name">${file.name}</div>
+            <div class="file-type">${fileType}</div>
+            <div class="file-size">${file.size}</div>
+        `;
+
+        // Click para abrir archivo
+        item.addEventListener('click', (e) => {
+            if (e.target.type !== 'checkbox') {
+                openFile(file);
+            }
+        });
+
+        grid.appendChild(item);
+    });
+}
+
+// Obtener icono según extensión
+function getFileIcon(fileName) {
+    const ext = fileName.split('.').pop().toLowerCase();
+    const icons = {
+        'pdf': '📄',
+        'doc': '📝',
+        'docx': '📝',
+        'xls': '📊',
+        'xlsx': '📊',
+        'txt': '📃',
+        'html': '🌐',
+        'json': '{ }',
+        'zip': '🗜️',
+        'rar': '🗜️',
+        'png': '🖼️',
+        'jpg': '🖼️',
+        'jpeg': '🖼️'
+    };
+    return icons[ext] || '📄';
+}
+
+// Obtener tipo de archivo
+function getFileType(fileName) {
+    const ext = fileName.split('.').pop().toLowerCase();
+    return ext;
+}
+
+// Abrir archivo
+function openFile(file) {
+    if (file.path) {
+        window.open(file.path, '_blank');
+        logFileEditor(`Abriendo ${file.name}`, 'info');
+    }
+}
+
+// Eliminar archivos seleccionados
+async function deleteSelectedFiles() {
+    const checkboxes = document.querySelectorAll('.file-checkbox:checked');
+
+    if (checkboxes.length === 0) {
+        logFileEditor('No has seleccionado ningún archivo para eliminar', 'warning');
+        return;
+    }
+
+    logFileEditor(`Eliminando ${checkboxes.length} archivo(s)...`, 'info');
+
+    // Obtener índices seleccionados en orden descendente
+    const indices = Array.from(checkboxes)
+        .map(cb => parseInt(cb.dataset.index))
+        .sort((a, b) => b - a);
+
+    // Eliminar del array
+    indices.forEach(index => {
+        fileEditorFiles.splice(index, 1);
+    });
+
+    renderFileEditorGrid();
+    logFileEditor('Archivos eliminados', 'success');
+}
+
+// Agregar archivos desde explorador
+async function addFilesFromFileEditor(files) {
+    if (!files || files.length === 0) return;
+
+    logFileEditor(`Agregando ${files.length} archivo(s)...`, 'info');
+
+    try {
+        // Simular agregado de archivos (en implementación real subirían a directus)
+        Array.from(files).forEach(file => {
+            fileEditorFiles.push({
+                name: file.name,
+                type: file.type,
+                path: URL.createObjectURL(file),
+                size: formatFileSize(file.size)
+            });
+        });
+
+        renderFileEditorGrid();
+        logFileEditor(`${files.length} archivo(s) agregado(s)`, 'success');
+    } catch (error) {
+        console.error('Error agregando archivos:', error);
+        logFileEditor('Error al agregar archivos', 'error');
+    }
+}
+
+// Formatear tamaño de archivo
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+}
+
+// Abrir carpeta de archivos
+async function openFilesFolder() {
+    if (!currentProductData) return;
+
+    const folderPath = 'directus-local/uploads/pdfs/';
+
+    logFileEditor('Abriendo carpeta...', 'info');
+
+    try {
+        const response = await fetch(`http://localhost:3001/open-folder?path=${encodeURIComponent(folderPath)}`);
+        const data = await response.json();
+
+        if (data.success) {
+            logFileEditor('Carpeta abierta en el explorador', 'success');
+        } else {
+            logFileEditor('No se pudo abrir la carpeta', 'error');
+        }
+    } catch (error) {
+        logFileEditor('System API no disponible. Ruta: ' + folderPath, 'warning');
+        console.error('Error al abrir carpeta:', error);
+    }
+}
+
+// Sistema de log para el editor de archivos
+function logFileEditor(message, type = 'info') {
+    const logContainer = document.getElementById('fileEditorLog');
+    if (!logContainer) return;
+
+    const logEntry = document.createElement('div');
+    logEntry.className = `log-message ${type}`;
+
+    const icons = {
+        'success': '✓',
+        'error': '✗',
+        'warning': '⚠',
+        'info': 'ℹ'
+    };
+
+    const icon = icons[type] || 'ℹ';
+    logEntry.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+
+    logContainer.appendChild(logEntry);
+    logContainer.scrollTop = logContainer.scrollHeight;
+
+    // Mantener solo los últimos 10 mensajes
+    const messages = logContainer.querySelectorAll('.log-message');
+    if (messages.length > 10) {
+        messages[0].remove();
+    }
+}
+
 // Funciones de Drag & Drop
 function handleDragStart(e) {
     draggedIndex = parseInt(this.dataset.index);
@@ -1376,7 +1627,52 @@ document.addEventListener('DOMContentLoaded', () => {
         btnOpenAttachmentsFolder.addEventListener('click', openAttachmentsFolder);
     }
 
-    // Cerrar al hacer click fuera del modal
+    // ===== EVENT LISTENERS PARA FILE EDITOR =====
+
+    // Botón abrir editor de archivos
+    const btnEditFiles = document.getElementById('btnEditFiles');
+    if (btnEditFiles) {
+        btnEditFiles.addEventListener('click', openFileEditor);
+    }
+
+    // Botón cerrar editor de archivos
+    const btnCloseFileEditor = document.getElementById('btnCloseFileEditor');
+    if (btnCloseFileEditor) {
+        btnCloseFileEditor.addEventListener('click', closeFileEditor);
+    }
+
+    // Botón eliminar archivos seleccionados
+    const btnDeleteSelectedFiles = document.getElementById('btnDeleteSelectedFiles');
+    if (btnDeleteSelectedFiles) {
+        btnDeleteSelectedFiles.addEventListener('click', deleteSelectedFiles);
+    }
+
+    // Botón agregar archivos en file editor
+    const inputFileEditorFiles = document.getElementById('inputFileEditorFiles');
+    if (inputFileEditorFiles) {
+        inputFileEditorFiles.addEventListener('change', function(e) {
+            addFilesFromFileEditor(this.files);
+            this.value = ''; // Resetear
+        });
+    }
+
+    // Botón abrir carpeta de archivos en file editor
+    const btnOpenFilesFolder = document.getElementById('btnOpenFilesFolder');
+    if (btnOpenFilesFolder) {
+        btnOpenFilesFolder.addEventListener('click', openFilesFolder);
+    }
+
+    // Cerrar file editor al hacer click fuera del modal
+    const fileEditorModal = document.getElementById('fileEditorModal');
+    if (fileEditorModal) {
+        fileEditorModal.addEventListener('click', (e) => {
+            if (e.target === fileEditorModal) {
+                closeFileEditor();
+            }
+        });
+    }
+
+    // Cerrar al hacer click fuera del modal (image editor)
     const editorModal = document.getElementById('imageEditorModal');
     if (editorModal) {
         editorModal.addEventListener('click', (e) => {

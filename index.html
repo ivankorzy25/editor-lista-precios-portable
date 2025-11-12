@@ -55,10 +55,13 @@
                             <!-- Las miniaturas se generarán dinámicamente con JavaScript -->
                         </div>
 
-                        <!-- Botón Editar Imágenes (solo modo interno) -->
+                        <!-- Botones de edición (solo modo interno) -->
                         <div class="image-quick-actions internal-only">
                             <button class="btn-edit-images" id="btnEditImages">
                                 ✏️ Editar Imágenes
+                            </button>
+                            <button class="btn-edit-files" id="btnEditFiles">
+                                📎 Editar Archivos
                             </button>
                         </div>
                     </div>
@@ -2274,6 +2277,42 @@
                 <button class="btn-editor-save" id="btnSaveChanges">
                     💾 Guardar Orden Actual
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Editor de Archivos -->
+    <div id="fileEditorModal" class="file-editor-modal">
+        <div class="file-editor-content">
+            <div class="file-editor-header">
+                <h2>📎 Editor de Archivos - <span id="fileEditorProductName"></span></h2>
+                <button class="file-editor-close" id="btnCloseFileEditor">&times;</button>
+            </div>
+            <div class="file-editor-body">
+                <div class="editor-toolbar">
+                    <label class="btn-editor-action btn-add-files">
+                        📁 Agregar Archivos
+                        <input type="file" id="inputFileEditorFiles" accept=".pdf,.html,.json,.txt,.doc,.docx,.xls,.xlsx" multiple style="display:none">
+                    </label>
+                    <button class="btn-editor-action btn-delete-selected" id="btnDeleteSelectedFiles">
+                        🗑️ Eliminar Seleccionados
+                    </button>
+                    <button class="btn-editor-action btn-open-folder" id="btnOpenFilesFolder">
+                        📂 Abrir Carpeta
+                    </button>
+                </div>
+                <div class="editor-info">
+                    <p><strong>Carpeta:</strong> <span id="fileEditorFolderPath"></span></p>
+                    <p><strong>Total de archivos:</strong> <span id="fileEditorFileCount">0</span></p>
+                </div>
+                <!-- Log discreto de operaciones -->
+                <div id="fileEditorLog" class="editor-log"></div>
+                <div class="file-editor-grid" id="fileEditorGrid">
+                    <!-- Los archivos se generarán dinámicamente -->
+                </div>
+            </div>
+            <div class="file-editor-footer">
+                <p>💡 <strong>Tip:</strong> PDFs, HTML, JSON, TXT y documentos del producto. Elimina con checkbox.</p>
             </div>
         </div>
     </div>
