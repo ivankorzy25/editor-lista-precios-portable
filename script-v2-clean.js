@@ -277,7 +277,9 @@ async function cargarImagenesMiniaturas() {
         if (imagenes.length > 0 && imagenes[0].imagen) {
             const thumbnail = document.getElementById(`thumb-${producto.id}`);
             if (thumbnail) {
-                const imgURL = DirectusAPI.getAssetURL(imagenes[0].imagen, '?width=100&height=100&fit=cover');
+                // imagen puede ser UUID string o objeto con .id
+                const imagenId = typeof imagenes[0].imagen === 'string' ? imagenes[0].imagen : imagenes[0].imagen.id;
+                const imgURL = DirectusAPI.getAssetURL(imagenId, '?width=100&height=100&fit=cover');
                 thumbnail.innerHTML = `<img src="${imgURL}" alt="${producto.nombre}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">`;
             }
         }
@@ -410,9 +412,10 @@ function cargarCarrusel(imagenes, nombreProducto) {
 
     let currentIndex = 0;
 
-    // Imagen principal (imagen es el UUID directamente)
+    // Imagen principal (imagen puede ser UUID o objeto)
     if (imagenes[0] && imagenes[0].imagen) {
-        mainImg.src = DirectusAPI.getAssetURL(imagenes[0].imagen, '?width=800&height=600&fit=contain');
+        const imagenId = typeof imagenes[0].imagen === 'string' ? imagenes[0].imagen : imagenes[0].imagen.id;
+        mainImg.src = DirectusAPI.getAssetURL(imagenId, '?width=800&height=600&fit=contain');
         mainImg.alt = nombreProducto;
     }
 
@@ -425,13 +428,15 @@ function cargarCarrusel(imagenes, nombreProducto) {
     thumbnailsContainer.innerHTML = '';
     imagenes.forEach((img, index) => {
         if (img.imagen) {
+            const imagenId = typeof img.imagen === 'string' ? img.imagen : img.imagen.id;
             const thumb = document.createElement('img');
-            thumb.src = DirectusAPI.getAssetURL(img.imagen, '?width=100&height=100&fit=cover');
+            thumb.src = DirectusAPI.getAssetURL(imagenId, '?width=100&height=100&fit=cover');
             thumb.alt = `${nombreProducto} - imagen ${index + 1}`;
             thumb.className = 'carousel-thumbnail' + (index === 0 ? ' active' : '');
             thumb.onclick = () => {
                 currentIndex = index;
-                mainImg.src = DirectusAPI.getAssetURL(img.imagen, '?width=800&height=600&fit=contain');
+                const currentImagenId = typeof img.imagen === 'string' ? img.imagen : img.imagen.id;
+                mainImg.src = DirectusAPI.getAssetURL(currentImagenId, '?width=800&height=600&fit=contain');
                 document.querySelectorAll('.carousel-thumbnail').forEach(t => t.classList.remove('active'));
                 thumb.classList.add('active');
             };
@@ -475,7 +480,8 @@ function abrirLightbox(imagenes, indiceInicial, nombreProducto) {
     const mostrarImagen = (index) => {
         if (imagenes[index] && imagenes[index].imagen) {
             // Imagen en alta resolución para el lightbox
-            lightboxImg.src = DirectusAPI.getAssetURL(imagenes[index].imagen, '?width=1920&height=1080&fit=contain');
+            const imagenId = typeof imagenes[index].imagen === 'string' ? imagenes[index].imagen : imagenes[index].imagen.id;
+            lightboxImg.src = DirectusAPI.getAssetURL(imagenId, '?width=1920&height=1080&fit=contain');
             lightboxImg.alt = `${nombreProducto} - imagen ${index + 1}`;
 
             if (lightboxCounter) {
