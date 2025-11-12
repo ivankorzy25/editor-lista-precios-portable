@@ -1,0 +1,351 @@
+{
+  "collections": [
+    {
+      "collection": "productos",
+      "meta": {
+        "icon": "shopping_cart",
+        "display_template": "{{nombre}}",
+        "note": "Catálogo de productos"
+      },
+      "schema": {
+        "name": "productos"
+      },
+      "fields": [
+        {
+          "field": "id",
+          "type": "integer",
+          "meta": {
+            "hidden": true,
+            "interface": "input",
+            "readonly": true
+          },
+          "schema": {
+            "is_primary_key": true,
+            "has_auto_increment": true
+          }
+        },
+        {
+          "field": "nombre",
+          "type": "string",
+          "meta": {
+            "interface": "input",
+            "required": true,
+            "width": "full",
+            "note": "Nombre del producto (único)"
+          },
+          "schema": {
+            "is_unique": true,
+            "is_nullable": false
+          }
+        },
+        {
+          "field": "descripcion",
+          "type": "text",
+          "meta": {
+            "interface": "input-multiline",
+            "width": "full"
+          },
+          "schema": {
+            "is_nullable": true
+          }
+        },
+        {
+          "field": "categoria",
+          "type": "string",
+          "meta": {
+            "interface": "select-dropdown",
+            "options": {
+              "choices": [
+                { "text": "Generadores", "value": "generadores" },
+                { "text": "Herramientas", "value": "herramientas" },
+                { "text": "Accesorios", "value": "accesorios" },
+                { "text": "Repuestos", "value": "repuestos" }
+              ]
+            }
+          },
+          "schema": {
+            "is_nullable": true
+          }
+        },
+        {
+          "field": "precio",
+          "type": "decimal",
+          "meta": {
+            "interface": "input",
+            "note": "Precio en moneda local"
+          },
+          "schema": {
+            "numeric_precision": 10,
+            "numeric_scale": 2,
+            "is_nullable": true
+          }
+        },
+        {
+          "field": "estado",
+          "type": "string",
+          "meta": {
+            "interface": "select-dropdown",
+            "options": {
+              "choices": [
+                { "text": "Activo", "value": "active" },
+                { "text": "Inactivo", "value": "inactive" }
+              ]
+            },
+            "default_value": "active"
+          },
+          "schema": {
+            "default_value": "active",
+            "is_nullable": false
+          }
+        },
+        {
+          "field": "orden",
+          "type": "integer",
+          "meta": {
+            "interface": "input",
+            "note": "Orden de visualización en el catálogo"
+          },
+          "schema": {
+            "default_value": 0,
+            "is_nullable": false
+          }
+        },
+        {
+          "field": "fecha_creacion",
+          "type": "timestamp",
+          "meta": {
+            "interface": "datetime",
+            "readonly": true,
+            "special": ["date-created"]
+          },
+          "schema": {
+            "is_nullable": false
+          }
+        },
+        {
+          "field": "fecha_modificacion",
+          "type": "timestamp",
+          "meta": {
+            "interface": "datetime",
+            "readonly": true,
+            "special": ["date-updated"]
+          },
+          "schema": {
+            "is_nullable": false
+          }
+        }
+      ]
+    },
+    {
+      "collection": "imagenes_producto",
+      "meta": {
+        "icon": "image",
+        "display_template": "{{producto_id.nombre}} - Imagen {{orden}}",
+        "note": "Imágenes asociadas a productos"
+      },
+      "schema": {
+        "name": "imagenes_producto"
+      },
+      "fields": [
+        {
+          "field": "id",
+          "type": "integer",
+          "meta": {
+            "hidden": true,
+            "interface": "input",
+            "readonly": true
+          },
+          "schema": {
+            "is_primary_key": true,
+            "has_auto_increment": true
+          }
+        },
+        {
+          "field": "producto_id",
+          "type": "integer",
+          "meta": {
+            "interface": "select-dropdown-m2o",
+            "display": "related-values",
+            "display_options": {
+              "template": "{{nombre}}"
+            }
+          },
+          "schema": {
+            "is_nullable": false,
+            "foreign_key_table": "productos",
+            "foreign_key_column": "id"
+          }
+        },
+        {
+          "field": "archivo_id",
+          "type": "uuid",
+          "meta": {
+            "interface": "file-image",
+            "special": ["file"]
+          },
+          "schema": {
+            "is_nullable": false,
+            "foreign_key_table": "directus_files",
+            "foreign_key_column": "id"
+          }
+        },
+        {
+          "field": "orden",
+          "type": "integer",
+          "meta": {
+            "interface": "input",
+            "note": "Orden en el carrusel de imágenes"
+          },
+          "schema": {
+            "default_value": 0,
+            "is_nullable": false
+          }
+        },
+        {
+          "field": "es_principal",
+          "type": "boolean",
+          "meta": {
+            "interface": "boolean",
+            "note": "Marca como imagen principal del producto"
+          },
+          "schema": {
+            "default_value": false,
+            "is_nullable": false
+          }
+        },
+        {
+          "field": "fecha_subida",
+          "type": "timestamp",
+          "meta": {
+            "interface": "datetime",
+            "readonly": true,
+            "special": ["date-created"]
+          },
+          "schema": {
+            "is_nullable": false
+          }
+        }
+      ]
+    },
+    {
+      "collection": "archivos_producto",
+      "meta": {
+        "icon": "attach_file",
+        "display_template": "{{producto_id.nombre}} - {{tipo}}",
+        "note": "Archivos (PDFs, docs) asociados a productos"
+      },
+      "schema": {
+        "name": "archivos_producto"
+      },
+      "fields": [
+        {
+          "field": "id",
+          "type": "integer",
+          "meta": {
+            "hidden": true,
+            "interface": "input",
+            "readonly": true
+          },
+          "schema": {
+            "is_primary_key": true,
+            "has_auto_increment": true
+          }
+        },
+        {
+          "field": "producto_id",
+          "type": "integer",
+          "meta": {
+            "interface": "select-dropdown-m2o",
+            "display": "related-values",
+            "display_options": {
+              "template": "{{nombre}}"
+            }
+          },
+          "schema": {
+            "is_nullable": false,
+            "foreign_key_table": "productos",
+            "foreign_key_column": "id"
+          }
+        },
+        {
+          "field": "archivo_id",
+          "type": "uuid",
+          "meta": {
+            "interface": "file",
+            "special": ["file"]
+          },
+          "schema": {
+            "is_nullable": false,
+            "foreign_key_table": "directus_files",
+            "foreign_key_column": "id"
+          }
+        },
+        {
+          "field": "tipo",
+          "type": "string",
+          "meta": {
+            "interface": "select-dropdown",
+            "options": {
+              "choices": [
+                { "text": "PDF", "value": "pdf" },
+                { "text": "Word", "value": "doc" },
+                { "text": "Excel", "value": "xls" },
+                { "text": "Texto", "value": "txt" },
+                { "text": "HTML", "value": "html" },
+                { "text": "JSON", "value": "json" },
+                { "text": "Otro", "value": "otro" }
+              ]
+            }
+          },
+          "schema": {
+            "is_nullable": false
+          }
+        },
+        {
+          "field": "descripcion",
+          "type": "text",
+          "meta": {
+            "interface": "input-multiline",
+            "width": "full"
+          },
+          "schema": {
+            "is_nullable": true
+          }
+        },
+        {
+          "field": "fecha_subida",
+          "type": "timestamp",
+          "meta": {
+            "interface": "datetime",
+            "readonly": true,
+            "special": ["date-created"]
+          },
+          "schema": {
+            "is_nullable": false
+          }
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "collection": "imagenes_producto",
+      "field": "producto_id",
+      "related_collection": "productos",
+      "meta": {
+        "one_field": "imagenes",
+        "sort_field": "orden",
+        "one_deselect_action": "delete"
+      }
+    },
+    {
+      "collection": "archivos_producto",
+      "field": "producto_id",
+      "related_collection": "productos",
+      "meta": {
+        "one_field": "archivos",
+        "one_deselect_action": "delete"
+      }
+    }
+  ]
+}

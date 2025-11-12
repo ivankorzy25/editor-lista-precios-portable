@@ -1,0 +1,30 @@
+# Ejecutables
+*.exe
+
+# Node modules
+node_modules/
+npm-debug.log*
+
+# Directorios de base de datos local
+directus-local/
+GENERADORES/
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos muy grandes (videos, imágenes grandes)
+*.mp4
+background360.jpg
+
+# Variables de entorno
+.env
+.env.local
+
+# Claude settings con tokens
+.claude/settings.local.json

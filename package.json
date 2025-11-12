@@ -1,0 +1,43 @@
+{
+  "name": "editor-portatil-lista-precios-v2",
+  "version": "2.0.0",
+  "description": "Sistema de catálogo portable con Directus CMS - KOR Generadores",
+  "main": "launcher.js",
+  "scripts": {
+    "start": "node launcher.js",
+    "setup": "node setup-directus-auto.js",
+    "system-api": "node system-api.js",
+    "build": "pkg launcher.js --targets node18-win-x64 --output KOR-Generadores-V2.exe"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "bin": {
+    "kor-generadores": "launcher.js"
+  },
+  "pkg": {
+    "assets": [
+      "index.html",
+      "styles.css",
+      "script.js",
+      "auto-login.js",
+      "system-api.js",
+      "kor-logo.png",
+      "kor-logo-2025.png",
+      "directus-local/**/*"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": "dist"
+  },
+  "keywords": [
+    "catalogo",
+    "directus",
+    "cms",
+    "portable",
+    "kor-generadores"
+  ],
+  "author": "KOR Generadores",
+  "license": "UNLICENSED"
+}
