@@ -323,17 +323,56 @@ async function viewProduct(productId) {
 
     modal.style.display = 'block';
 
-    // Cargar información básica
+    // ==== INFORMACIÓN BÁSICA ====
     const modalName = document.getElementById('modalProductName');
     if (modalName) modalName.textContent = producto.nombre;
 
     const modalSpecs = document.getElementById('modalProductSpecs');
     if (modalSpecs) modalSpecs.textContent = producto.descripcion || '';
 
-    const modalListPrice = document.getElementById('modalListPrice');
-    if (modalListPrice) modalListPrice.textContent = producto.precio ? `USD ${producto.precio}` : 'Consultar';
+    // ==== PRECIOS PÚBLICOS ====
+    setElementText('modalSalePricePublic', producto.precio_con_iva ? `USD ${producto.precio_con_iva}` : 'Consultar');
+    setElementText('modalListPrice', producto.precio_sin_iva ? `USD ${producto.precio_sin_iva}` : '');
+    setElementText('modalIVAAmount', producto.iva_monto ? `USD ${producto.iva_monto}` : '');
+    setElementText('modalIVAInfo', producto.iva_porcentaje ? `${producto.iva_porcentaje}% del precio base` : '');
 
-    // Cargar carrusel de imágenes
+    // ==== COSTOS (USO INTERNO) ====
+    setElementText('modalPurchasePrice', producto.precio_compra_contado ? `USD ${producto.precio_compra_contado}` : '');
+    setElementText('modalDiscountInfo', `Bonificación ${producto.bonificacion_porcentaje || 0}% + Contado ${producto.descuento_contado_porcentaje || 0}%`);
+    setElementText('modalProfitMargin', producto.margen_ganancia ? `USD ${producto.margen_ganancia}` : '');
+    setElementText('modalProfitPercent', producto.margen_ganancia_porcentaje ? `${producto.margen_ganancia_porcentaje}% de ganancia` : '');
+
+    // ==== OPCIONES DE PAGO ====
+    const contadoHTML = `
+        ${producto.pago_contado_precio1 ? `<p>USD ${producto.pago_contado_precio1}</p>` : ''}
+        ${producto.pago_contado_precio2 ? `<p>USD ${producto.pago_contado_precio2}</p>` : ''}
+        ${producto.pago_contado_precio3 ? `<p>USD ${producto.pago_contado_precio3}</p>` : ''}
+        <small>Bonif ${producto.bonificacion_porcentaje || 0}% + Contado ${producto.descuento_contado_porcentaje || 0}%</small>
+    `;
+    setElementHTML('modalCashPrice', contadoHTML);
+
+    const financiadoHTML = `
+        ${producto.pago_financiado_precio1 ? `<p>USD ${producto.pago_financiado_precio1}</p>` : ''}
+        ${producto.pago_financiado_precio2 ? `<p>USD ${producto.pago_financiado_precio2}</p>` : ''}
+        ${producto.pago_financiado_precio3 ? `<p>USD ${producto.pago_financiado_precio3}</p>` : ''}
+        <small>Solo bonificación ${producto.bonificacion_porcentaje || 0}%</small>
+    `;
+    setElementHTML('modalFinancedPrice', financiadoHTML);
+
+    // ==== ESPECIFICACIONES TÉCNICAS ====
+    setElementText('modalFuelType', producto.combustible ? capitalize(producto.combustible) : '-');
+    setElementText('modalSoundproof', producto.insonorizado ? 'Sí' : 'No');
+    setElementText('modalCabin', producto.cabina ? 'Sí' : 'No');
+    setElementText('modalControlPanel', producto.tablero_transfer ? 'Sí' : 'No');
+    setElementText('modalIVAType', producto.iva_porcentaje ? `${producto.iva_porcentaje}%` : '-');
+    setElementText('modalDollarType', producto.tipo_dolar || '-');
+
+    // ==== INFORMACIÓN ADICIONAL ====
+    setElementText('modalAccessories', producto.accesorios || '-');
+    setElementText('modalWarranty', producto.garantia || '-');
+    setElementText('modalFinancing', producto.financiacion || '-');
+
+    // ==== CARRUSEL DE IMÁGENES ====
     if (imagenes.length > 0) {
         cargarCarrusel(imagenes, producto.nombre);
     } else {
@@ -344,8 +383,23 @@ async function viewProduct(productId) {
         }
     }
 
-    // Configurar botones de acceso a Directus
+    // ==== CONFIGURAR BOTONES ====
     configurarBotonesDirectus(productId, archivos);
+}
+
+// Funciones auxiliares
+function setElementText(id, text) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = text;
+}
+
+function setElementHTML(id, html) {
+    const element = document.getElementById(id);
+    if (element) element.innerHTML = html;
+}
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 function cargarCarrusel(imagenes, nombreProducto) {
